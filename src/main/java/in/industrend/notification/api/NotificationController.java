@@ -61,7 +61,7 @@ public class NotificationController {
   private Delivery sendWhatsAppOtp(OtpRequest request) {
     var endpoint = config("notification.msg91.whatsapp.endpoint", "https://api.msg91.com/api/v5/whatsapp/whatsapp-outbound-message/bulk/");
     var integratedNumber = config("notification.msg91.whatsapp.integrated_number", "919356419345");
-    var templateName = config("notification.msg91.whatsapp.template_name", "indus_newotp");
+    var templateName = config("notification.msg91.whatsapp.template_name", "indusnewotp");
     var language = config("notification.msg91.whatsapp.language", "en");
     if (msg91Key.isBlank()) throw new IllegalStateException("MSG91_AUTH_KEY is not configured");
     var destination = request.mobile().replaceAll("\\D", "");
