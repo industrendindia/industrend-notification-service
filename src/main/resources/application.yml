@@ -14,6 +14,8 @@ spring:
     default-schema: industrendindia
     schemas: industrendindia
     create-schemas: true
+    baseline-on-migrate: true
+    baseline-version: 0
     table: flyway_notification_history
 management:
   endpoints.web.exposure.include: health,info
