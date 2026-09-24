@@ -1,0 +1,24 @@
+server:
+  port: ${PORT:8083}
+spring:
+  application:
+    name: notification-service
+  datasource:
+    url: ${DATABASE_URL:jdbc:postgresql://localhost:5432/industrend}
+    username: ${DATABASE_USER:industrend}
+    password: ${DATABASE_PASSWORD:}
+    hikari:
+      maximum-pool-size: ${DB_POOL_MAX:8}
+      connection-init-sql: SET search_path TO industrendindia,pg_catalog
+  flyway:
+    default-schema: industrendindia
+    schemas: industrendindia
+    create-schemas: true
+    table: flyway_notification_history
+management:
+  endpoints.web.exposure.include: health,info
+
+services:
+  internal-token: ${INTERNAL_SERVICE_TOKEN:dev-only-change-me}
+  config.url: ${CONFIG_SERVICE_URL:http://127.0.0.1:8082}
+app.msg91.auth-key: ${MSG91_AUTH_KEY:}
