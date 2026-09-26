@@ -61,17 +61,20 @@ public class NotificationController {
   private Delivery sendWhatsAppOtp(OtpRequest request) {
     var endpoint = config("notification.msg91.whatsapp.endpoint", "https://api.msg91.com/api/v5/whatsapp/whatsapp-outbound-message/bulk/");
     var integratedNumber = config("notification.msg91.whatsapp.integrated_number", "919356419345");
-    var templateName = config("notification.msg91.whatsapp.template_name", "indusnewotp");
+    var templateName = config("notification.msg91.whatsapp.template_name", "indus_otp_auth");
     var language = config("notification.msg91.whatsapp.language", "en");
+    var namespace = config("notification.msg91.whatsapp.namespace", "fbdc924e_ff44_4429_aab6_774b16428de0");
     if (msg91Key.isBlank()) throw new IllegalStateException("MSG91_AUTH_KEY is not configured");
     var destination = request.mobile().replaceAll("\\D", "");
     var template = new LinkedHashMap<String,Object>();
     template.put("name", templateName);
     template.put("language", Map.of("code", language, "policy", "deterministic"));
-    template.put("namespace", null);
+    template.put("namespace", namespace);
     template.put("to_and_components", List.of(Map.of(
         "to", List.of(destination),
-        "components", Map.of("body_1", Map.of("type", "text", "value", request.otp())))));
+        "components", Map.of(
+            "body_1", Map.of("type", "text", "value", request.otp()),
+            "button_1", Map.of("subtype", "url", "type", "text", "value", request.otp())))));
     var payload = Map.<String,Object>of(
         "integrated_number", integratedNumber,
         "content_type", "template",
